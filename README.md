@@ -7,7 +7,7 @@ It uses Beautiful Soup, requests, json, pandas and psycopg2 libraries.
 
 **The Amazon Captcha Solver**   
 This lands on a amazon captcha page, extracts the image and solves it and fills the form.    
-It uses amazoncaptcha and requests libraries
+It uses Beautiful Soup, requests, pytesseract, PIL libraries.
 
 
 **Steps to use the files**   
