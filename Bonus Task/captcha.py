@@ -1,10 +1,11 @@
-from email.mime import base
 import requests
 from bs4 import BeautifulSoup
-import json
+from PIL import Image, ImageEnhance, ImageFilter
+import pytesseract
+import numpy as np
+import io 
 
-from amazoncaptcha import AmazonCaptcha
-
+pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 def solve_captcha():
     HEADERS = ({'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36",
@@ -20,12 +21,18 @@ def solve_captcha():
     captcha_tag = soup.find('img')
     captcha_img = captcha_tag['src']
     print(captcha_img)
-    captcha = AmazonCaptcha.fromlink(captcha_img)
-    solution = captcha.solve()
-
-    print(solution)
+    response = requests.get(captcha_img)
+    img = Image.open(io.BytesIO(response.content))
+    img = img.filter(ImageFilter.MedianFilter())
+    enhancer = ImageEnhance.Contrast(img)
+    img = enhancer.enhance(2)
+    img = img.convert('1')
+    img.save('captcha.jpg')
+    text = pytesseract.image_to_string(Image.open('captcha.jpg'), lang='eng', config ='--oem 3 --psm 13')
+    print(text)
+    
     params = {
-        'field-keyword': solution
+        'field-keyword': text
     }
     r = requests.get(base_url, params=params, headers=HEADERS)
     print(r.status_code)
