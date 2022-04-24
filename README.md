@@ -6,7 +6,7 @@ This scrapes relevant information from the amazon pages based on the values from
 It uses Beautiful Soup, requests, json, pandas and psycopg2 libraries.      
 
 **The Amazon Captcha Solver**   
-This lands on a amazon captcha page, extracts the image and solves it and fills the form.    
+This lands on a amazon captcha page, extracts the image and solves it and fills the form. It is not 100% accurate. It is just an attempt.  
 It uses Beautiful Soup, requests, pytesseract, PIL libraries.
 
 
