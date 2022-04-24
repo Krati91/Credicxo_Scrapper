@@ -6,7 +6,7 @@ import numpy as np
 import io 
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-
+tessdata_dir_config = 'C:\\Program Files\\Tesseract-OCR\\tessdata'
 def solve_captcha():
     HEADERS = ({'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36",
                 'Accept-Language': 'fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5'})
@@ -28,7 +28,7 @@ def solve_captcha():
     img = enhancer.enhance(2)
     img = img.convert('1')
     img.save('captcha.jpg')
-    text = pytesseract.image_to_string(Image.open('captcha.jpg'), lang='eng', config ='--oem 3 --psm 13')
+    text = pytesseract.image_to_string(Image.open('captcha.jpg'), lang='eng', config=tessdata_dir_config)
     print(text)
     
     params = {
